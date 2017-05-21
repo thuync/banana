@@ -3,12 +3,21 @@ project(banana)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES
-        banana/README.md
-        docs/README.md
-        examples/README.md
-        tests/README.md
-        LICENSE
-        README.md)
+find_package(Boost 1.64.0)
+
+if(Boost_FOUND)
+#    message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+#    message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+#    message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
+include_directories(${PROJECT_SOURCE_DIR}/banana/include)
+
+set(SOURCE_FILES banana/include/banana.hpp banana/src/banana.cpp)
 
 add_executable(banana ${SOURCE_FILES})
+
+if(Boost_FOUND)
+    target_link_libraries(banana ${Boost_LIBRARIES})
+endif()
